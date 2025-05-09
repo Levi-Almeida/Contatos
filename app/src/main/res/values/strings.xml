@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista de Contatos</string>
+    <string name="todos_contatos">Todos os contatos</string>
+    <string name="somente_favoritos">Somente favoritos</string>
+    <string name="nome">Nome</string>
+    <string name="telefone">Telefone</string>
+    <string name="email">Email</string>
+    <string name="favorito">Favorito</string>
+    <string name="salvar">Salvar</string>
+    <string name="excluir_contato">Excluir Contato</string>
+    <string name="confirmar_exclusao">Deseja realmente excluir o contato %1$s?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="contato_excluido">Contato excluído com sucesso</string>
+    <string name="erro_excluir_contato">Erro ao excluir contato: %1$d</string>
+    <string name="falha_comunicacao">Falha na comunicação: %1$s</string>
+    <string name="erro_carregar_contato">Erro ao carregar contato</string>
+    <string name="contato_salvo">Contato salvo com sucesso</string>
+    <string name="erro_salvar_contato">Erro ao salvar contato: %1$d</string>
+    <string name="contato_atualizado">Contato atualizado com sucesso</string>
+    <string name="erro_atualizar_contato">Erro ao atualizar contato: %1$d</string>
+    <string name="campo_obrigatorio">Campo obrigatório</string>
+    <string name="adicionar_contato">Adicionar contato</string>
+    <string name="editar_contato">Editar Contato</string>
+    <string name="novo_contato">Novo Contato</string>
+    <string name="nenhum_contato">Nenhum contato encontrado</string>
+    <string name="adicionado_favoritos">Adicionado aos favoritos</string>
+    <string name="removido_favoritos">Removido dos favoritos</string>
+</resources>
