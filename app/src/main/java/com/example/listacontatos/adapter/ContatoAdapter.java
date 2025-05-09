@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.listacontatos.R;
 import com.example.listacontatos.activity.FormContatoActivity;
+import com.example.listacontatos.activity.MainActivity;
 import com.example.listacontatos.api.RetrofitConfig;
 import com.example.listacontatos.model.Contato;
 
@@ -59,16 +60,13 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
 
         holder.tvNome.setText(contato.getNome());
         holder.tvTelefone.setText(contato.getTelefone());
-        holder.tvEmail.setText(contato.getEmail());
 
-        // Configurar ícone de favorito
         if (contato.isFavorito()) {
             holder.btnFavorito.setImageResource(R.drawable.ic_star_filled);
         } else {
             holder.btnFavorito.setImageResource(R.drawable.ic_star_border);
         }
 
-        // Tratar clique no botão de ligação
         holder.btnLigar.setOnClickListener(v -> {
             String tel = "tel:" + contato.getTelefone();
             Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -76,17 +74,15 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
             context.startActivity(intent);
         });
 
-        // Tratar clique no botão de edição
         holder.btnEditar.setOnClickListener(v -> {
 
-            System.out.println("LOG DE ID DA INTENT-----------");
-            System.out.println("LOG DE ID DA INTENT-----------"+ contato.getId());
             Intent intent = new Intent(context, FormContatoActivity.class);
-            intent.putExtra("CONTATO_ID", contato.getId());
+
+            intent.putExtra("CONTATO", contato);
+
             context.startActivity(intent);
         });
 
-        // Tratar clique no botão de exclusão
         holder.btnExcluir.setOnClickListener(v -> {
             System.out.println("LOG DE ID DA INTENT-----------");
             if (onContatoListener != null) {
@@ -94,14 +90,12 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
             }
         });
 
-        // Tratar clique no botão de favorito
         holder.btnFavorito.setOnClickListener(v -> {
             if (onContatoListener != null) {
                 onContatoListener.onFavoriteClick(position);
             }
         });
 
-        // Tratar clique no item inteiro
         holder.itemView.setOnClickListener(v -> {
             if (onContatoListener != null) {
                 onContatoListener.onContatoClick(position);
@@ -129,14 +123,13 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
     }
 
     public static class ContatoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNome, tvTelefone, tvEmail;
+        TextView tvNome, tvTelefone;
         ImageButton btnLigar, btnEditar, btnExcluir, btnFavorito;
 
         public ContatoViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tv_nome);
             tvTelefone = itemView.findViewById(R.id.tv_telefone);
-            tvEmail = itemView.findViewById(R.id.tv_email);
             btnLigar = itemView.findViewById(R.id.btn_ligar);
             btnEditar = itemView.findViewById(R.id.btn_editar);
             btnExcluir = itemView.findViewById(R.id.btn_excluir);

@@ -2,7 +2,9 @@ package com.example.listacontatos.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Contato {
+import java.io.Serializable;
+
+public class Contato implements Serializable {
     @SerializedName("id")
     private String id;
 
@@ -18,7 +20,6 @@ public class Contato {
     @SerializedName("favorite")
     private boolean favorito;
 
-    // Construtores
     public Contato() {
     }
 
@@ -29,7 +30,6 @@ public class Contato {
         this.favorito = favorito;
     }
 
-    // Getters e Setters
     public String getId() {
         return id;
     }
@@ -52,14 +52,6 @@ public class Contato {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean isFavorito() {

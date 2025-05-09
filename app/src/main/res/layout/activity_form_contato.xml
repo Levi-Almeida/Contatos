@@ -80,15 +80,7 @@
                 app:boxCornerRadiusTopStart="8dp"
                 app:boxStrokeColor="?attr/colorSecondary"
                 app:hintTextColor="?attr/colorSecondary"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
 
             <CheckBox
                 android:id="@+id/check_favorito"

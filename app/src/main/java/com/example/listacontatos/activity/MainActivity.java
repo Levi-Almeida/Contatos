@@ -29,6 +29,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+// DUPLA:
+// Levi Almeida     - CV3064409
+// Mariana Novaes   - CV3063224
+
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerContatos;
@@ -48,25 +54,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Lista de Contatos");
 
-        // Inicializar componentes
         recyclerContatos = findViewById(R.id.recycler_contatos);
         progressBar = findViewById(R.id.progress_bar);
         tvEmpty = findViewById(R.id.tv_empty);
         fabAddContato = findViewById(R.id.fab_add_contato);
 
-        // Configurar RecyclerView
         listaContatos = new ArrayList<>();
         adapter = new ContatoAdapter(this, listaContatos);
         recyclerContatos.setLayoutManager(new LinearLayoutManager(this));
         recyclerContatos.setAdapter(adapter);
 
-        // Configurar listeners
         fabAddContato.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, FormContatoActivity.class);
             startActivity(intent);
         });
 
-        // Configurar listener para os itens do adapter
         adapter.setOnContatoListener(new ContatoAdapter.OnContatoListener() {
             @Override
             public void onDeleteClick(int position) {
@@ -157,13 +159,11 @@ public class MainActivity extends AppCompatActivity {
                             contato.isFavorito() ? "Adicionado aos favoritos" : "Removido dos favoritos",
                             Toast.LENGTH_SHORT).show();
 
-                    // Se estiver mostrando apenas favoritos e remover dos favoritos
                     if (mostrarSomenteOsFavoritos && !contato.isFavorito()) {
                         adapter.removerItem(position);
                         verificarListaVazia();
                     }
                 } else {
-                    // Reverter a mudança no modelo
                     contato.setFavorito(!contato.isFavorito());
                     Toast.makeText(MainActivity.this, "Erro ao atualizar favorito: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Contato> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                // Reverter a mudança no modelo
                 contato.setFavorito(!contato.isFavorito());
                 Toast.makeText(MainActivity.this, "Falha na comunicação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private void abrirDetalheContato(int position) {
         Contato contato = adapter.getItem(position);
         Intent intent = new Intent(MainActivity.this, FormContatoActivity.class);
-        intent.putExtra("CONTATO_ID", contato.getId());
+        intent.putExtra("CONTATO", contato);
         startActivity(intent);
     }
 

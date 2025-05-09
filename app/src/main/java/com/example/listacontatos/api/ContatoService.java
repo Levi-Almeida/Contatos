@@ -20,9 +20,6 @@ public interface ContatoService {
     @GET("contacts")
     Call<List<Contato>> listarContatosFavoritos(@Query("favorite") boolean favorite);
 
-    @GET("contacts/{id}")
-    Call<Contato> buscarContato(@Path("id") Integer id);
-
     @POST("contacts")
     Call<Contato> criarContato(@Body Contato contato);
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,12 +27,12 @@ import retrofit2.Response;
 
 public class FormContatoActivity extends AppCompatActivity {
 
-    private TextInputEditText editNome, editTelefone, editEmail;
+    private TextInputEditText editNome, editTelefone;
     private CheckBox checkFavorito;
     private Button btnSalvar;
     private ProgressBar progressBar;
 
-    private String contatoId;
+    private Contato contato;
     private boolean modoEdicao = false;
 
     @Override
@@ -44,38 +45,33 @@ public class FormContatoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-
-        // Inicializar componentes
         editNome = findViewById(R.id.edit_nome);
         editTelefone = findViewById(R.id.edit_telefone);
-        editEmail = findViewById(R.id.edit_email);
         checkFavorito = findViewById(R.id.check_favorito);
         btnSalvar = findViewById(R.id.btn_salvar);
         progressBar = findViewById(R.id.progress_bar);
 
-        // Verificar se é modo de edição
-        if (getIntent().hasExtra("CONTATO_ID")) {
+        if (getIntent().hasExtra("CONTATO")) {
+            contato = (Contato) getIntent().getSerializableExtra("CONTATO");
             modoEdicao = true;
-            contatoId = getIntent().getStringExtra("CONTATO_ID");
+
             getSupportActionBar().setTitle("Editar Contato");
             carregarDadosContato();
         } else {
             getSupportActionBar().setTitle("Novo Contato");
         }
 
-        // Configurar botão salvar
+        aplicarMascaraTelefone();
         btnSalvar.setOnClickListener(v -> {
             if (validarCampos()) {
-                Contato contato = new Contato();
-                contato.setNome(editNome.getText().toString().trim());
-                contato.setTelefone(editTelefone.getText().toString().trim());
-                contato.setEmail(editEmail.getText().toString().trim());
-                contato.setFavorito(checkFavorito.isChecked());
+                Contato contatoNv = new Contato();
+                contatoNv.setNome(editNome.getText().toString().trim());
+                contatoNv.setTelefone(editTelefone.getText().toString().trim());
+                contatoNv.setFavorito(checkFavorito.isChecked());
 
                 if (modoEdicao) {
-                    contato.setId(contatoId);
-                    atualizarContato(contato);
+                    contatoNv.setId(contato.getId());
+                    atualizarContato(contatoNv);
                 } else {
                     salvarNovoContato(contato);
                 }
@@ -94,34 +90,20 @@ public class FormContatoActivity extends AppCompatActivity {
     }
 
     private void carregarDadosContato() {
-        progressBar.setVisibility(View.VISIBLE);
 
-        RetrofitConfig.getContatoService().buscarContato(Integer.parseInt(contatoId)).enqueue(new Callback<Contato>() {
-            @Override
-            public void onResponse(Call<Contato> call, Response<Contato> response) {
-                progressBar.setVisibility(View.GONE);
-                if (response.isSuccessful() && response.body() != null) {
-                    Contato contato = response.body();
-                    preencherFormulario(contato);
-                } else {
-                    Toast.makeText(FormContatoActivity.this, "Erro ao carregar contato", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
+        try {
+            preencherFormulario(contato);
 
-            @Override
-            public void onFailure(Call<Contato> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(FormContatoActivity.this, "Falha na comunicação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        }catch (Exception e){
+            Toast.makeText(FormContatoActivity.this, "Erro ao carregar contato", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
     }
 
     private void preencherFormulario(Contato contato) {
         editNome.setText(contato.getNome());
         editTelefone.setText(contato.getTelefone());
-        editEmail.setText(contato.getEmail());
         checkFavorito.setChecked(contato.isFavorito());
     }
 
